@@ -1,0 +1,207 @@
+# PROYECTO PRE-ENTREGA
+productos=[]
+fin=False
+i=0
+
+print("Bienvenido al sistema.")
+while not fin:
+  print("\nQue le gustaria hacer?\n")
+  print("1. Agregar productos")
+  print("2. Mostrar productos")
+  print("3. Buscar productos")
+  print("4. Eliminar productos")
+  print("5. Salir\n")
+  print("Ingrese una opcion:")
+  opcion=int(input())
+
+  match opcion:
+    case 1:
+      correcto = False
+      otro = True
+      while otro:
+        print("\n--- Agregar Nuevo Producto ---")
+        print("Ingrese el nombre del producto:")
+        nombre_producto=input().strip().capitalize()
+        print("Ingrese la categoria del producto:")
+        categoria_producto=input().strip().capitalize()
+        while True:
+          print("Ingrese el precio del producto, sin centavos por favor:")
+          precio_producto_str=(input())
+          if precio_producto_str == "":
+              print("El precio no puede estar en blanco. Por favor ingrese un numero.")
+              continue
+          if precio_producto_str.isdigit():
+                precio_producto = int(precio_producto_str)
+                if precio_producto < 0: 
+                    print("El precio no puede ser negativo.")
+                    continue
+                else:
+                  break
+          else:
+            print("Entrada invalida. Por favor ingrese solo valores redondos para el precio.")
+            continue
+        while not correcto:
+          if nombre_producto=="":
+            print("El nombre no puede estar en blanco.")
+            nombre_producto=input().strip().capitalize()
+          elif categoria_producto=="":
+              print("La categoria no puede estar en blanco.")
+              categoria_producto=input().strip().capitalize()
+          else:
+            correcto=True
+        productos.extend([nombre_producto,categoria_producto,precio_producto])
+        print("\nDesea agregar otro producto? \nPor favor ingrese su respuesta (si/no)")
+        uno_mas=input().strip().lower()
+        if uno_mas=="no":
+          while True:
+            print("\nDesea volver al menu principal o salir del programa? \nPor favor ingrese su respuesta (menu/salir)")
+            volver=input().strip().capitalize()
+            if volver=="":
+                print("Ingrese menu o salir.")
+                continue
+            elif volver=="Menu":
+                otro=False
+                break
+            elif volver=="Salir":
+                fin=True
+                otro=False
+                break
+            
+    case 2:
+      print(f"Los productos registrados son:\n")
+      n=1
+      for i in range(0, len(productos),3):
+        nombre = productos[i]
+        categoria = productos[i+1]
+        precio = productos[i+2]
+        print(f"Producto N°{n}: {nombre}.\nCategoria: {categoria}. \nPrecio: ${precio}.")
+        n+=1
+      while True:
+        print("\nDesea volver al menu principal o salir del programa? \nPor favor ingrese su respuesta (menu/salir)")
+        volver=input().strip().capitalize()
+        if volver=="":
+            print("Ingrese menu o salir.")
+            continue
+        elif volver=="Menu":
+            break
+        elif volver=="Salir":
+            fin=True
+            break
+
+    case 3:
+      encontrado=False
+      buscar_producto=True
+      while buscar_producto:
+        while True:
+          print("Ingrese el nombre del producto que desea buscar:")
+          nombre_a_buscar=input().strip().lower().capitalize()
+          if nombre_a_buscar=="":
+                print("El nombre no puede estar en blanco.")
+                continue
+          else:
+            break
+        for i in range(0, len(productos),3):
+          if i + 2 < len(productos):
+                nombre_actual = productos[i]
+                categoria_actual = productos[i+1]
+                precio_actual = productos[i+2]
+                num_producto = (i // 3) + 1
+                if nombre_a_buscar==nombre_actual:
+                    print(f"Producto N°{num_producto}: {nombre}.\nCategoria: {categoria}. \nPrecio: ${precio}.")
+                    encontrado=True
+        if not encontrado:
+          print("No se encontraron resultados.")
+        print("\nDesea buscar otro producto? \nPor favor ingrese su respuesta (Si/No)")
+        buscar=input().strip().capitalize()
+        if buscar=="Si":
+          continue
+        elif buscar=="No":
+          while True:
+            print("\nDesea volver al menu principal o salir del programa?\nPor favor ingrese su respuesta (menu/salir)")
+            volver=input().strip().capitalize()
+            if volver=="":
+                print("Ingrese menu o salir.")
+                continue
+            elif volver=="Menu":
+                buscar_producto=False
+                break
+            elif volver=="Salir":
+                fin=True
+                buscar_producto=False
+                break
+        elif buscar!="Si" or buscar!="No":
+          print("Por favor ingrese Si o No.")
+          continue
+
+    case 4: 
+      eliminar_producto = True
+      while eliminar_producto:
+        print("\n--- Eliminar Producto ---")
+        if not productos:
+            print("La lista de productos está vacía. No hay nada que eliminar.")
+            break 
+        print(f"Los productos registrados son:\n")
+        n=1
+        for i in range(0, len(productos),3):
+            nombre = productos[i]
+            categoria = productos[i+1]
+            precio = productos[i+2]
+            print(f"Producto N°{n}: {nombre}.")
+            n+=1
+        while True:
+            print("\nIngrese el número del producto que desea eliminar:")
+            producto_a_eliminar_str = input().strip()
+            if producto_a_eliminar_str == "":
+                print("El número del producto no puede estar en blanco.")
+                continue
+            if producto_a_eliminar_str.isdigit():
+                producto_a_eliminar_index = int(producto_a_eliminar_str) - 1 
+                if 0 <= producto_a_eliminar_index < len(productos) // 3:
+                    indice_a_eliminar = producto_a_eliminar_index * 3
+                    nombre_eliminado = productos[indice_a_eliminar]
+                    productos.pop(indice_a_eliminar + 2) 
+                    productos.pop(indice_a_eliminar + 1) 
+                    productos.pop(indice_a_eliminar)
+                    print(f"\nProducto '{nombre_eliminado}' (N°{producto_a_eliminar_index + 1}) exitosamente eliminado.")
+                    break
+                else:
+                    print("Número de producto inválido. Por favor, ingrese un número de la lista.")
+                    continue
+            else:
+                print("Entrada inválida. Por favor, ingrese solo números.")
+                continue
+        print("\nDesea eliminar otro producto? \nPor favor ingrese su respuesta (Si/No)")
+        eliminar=input().strip().capitalize()
+        if eliminar=="Si":
+          continue 
+        elif eliminar=="No":
+          while True:
+            print("\nDesea volver al menu principal o salir del programa?\nPor favor ingrese su respuesta (menu/salir)")
+            volver=input().strip().capitalize()
+            if volver=="":
+                print("Ingrese menu o salir.")
+                continue
+            elif volver=="Menu":
+                eliminar_producto=False
+                break 
+            elif volver=="Salir":
+                eliminar_producto=False 
+                fin=True 
+                break 
+            else:
+                print("Por favor ingrese Menu o Salir.")
+                continue
+        else:
+            print("Por favor ingrese Si o No.")
+            continue
+
+    case 5:
+      fin=True
+      break
+
+    case _:
+      print("Por favor ingrese una opcion valida.")
+      continue
+
+if fin:
+  print("\nGracias por elegirnos, hasta la proxima!")
