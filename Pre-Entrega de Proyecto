@@ -107,7 +107,7 @@ while not fin:
                 precio_actual = productos[i+2]
                 num_producto = (i // 3) + 1
                 if nombre_a_buscar==nombre_actual:
-                    print(f"Producto N°{num_producto}: {nombre}.\nCategoria: {categoria}. \nPrecio: ${precio}.")
+                    print(f"Producto N°{num_producto}: {nombre_actual}.\nCategoria: {categoria_actual}. \nPrecio: ${precio_actual}.")
                     encontrado=True
         if not encontrado:
           print("No se encontraron resultados.")
